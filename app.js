@@ -1,8 +1,8 @@
-import pkg from 'pg';
+import pool from './config/db.js';
+import express from 'express';
+import dotenv from 'dotenv';
 
-const { Pool } = pkg;
-const express = require('express');
-require('dotenv').config();
+dotenv.config();
 
 
 const app = express();
@@ -16,14 +16,6 @@ app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
-// Database connection
-const pool = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
-});
 
 // Start the server
 
