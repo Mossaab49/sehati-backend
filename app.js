@@ -1,5 +1,7 @@
+import pkg from 'pg';
+
+const { Pool } = pkg;
 const express = require('express');
-const mongoose = require('mongoose');
 require('dotenv').config();
 
 
@@ -11,15 +13,16 @@ app.use(express.json());
 // Routes
 app.get('/', (req, res) => {
     res.json({ message: 'Hello, World!' });
+    res.send('Hello, World!');
 });
 
-// Connect to MongoDB
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@sehati.hx4mwkg.mongodb.net/`);
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-    console.log('Connected to MongoDB');
+// Database connection
+const pool = new Pool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
 });
 
 // Start the server
@@ -27,3 +30,7 @@ db.once('open', () => {
 app.listen(_PORT, () => {
     console.log(`Server is running on port ${_PORT}`);
 });
+
+
+
+export default pool;
