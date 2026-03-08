@@ -17,12 +17,18 @@ app.get('/', (req, res) => {
 });
 
 
+app.get('/db', async (req, res) => {
+    try {
+        const result = await pool.query("SELECT current_user, current_database()");
+        res.json(result.rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 // Start the server
 
 app.listen(_PORT, () => {
     console.log(`Server is running on port ${_PORT}`);
 });
-
-
-
-export default pool;
