@@ -1,0 +1,45 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../generated/prisma"
+}
+
+
+datasource db{
+    provider = "postgresql"
+}
+
+
+model Doctor {
+  id             String   @id @default(uuid()) @db.Uuid
+  firstName      String   @map("first_name") @db.VarChar(100)
+  lastName       String   @map("last_name") @db.VarChar(100)
+  email          String   @unique @db.VarChar(255)
+  passwordHash   String   @map("password_hash") @db.VarChar(255)
+  phone          String?  @db.VarChar(20)
+  gender         String?  @db.VarChar(10)
+  birthday       DateTime? @db.Date
+  city           String?  @db.VarChar(100)
+  fullAddress    String?  @map("full_address") @db.VarChar(255)
+  latitude       Decimal? @db.Decimal(10, 7)
+  longitude      Decimal? @db.Decimal(10, 7)
+  bio            String?  @db.Text
+  yearsExp       String?  @map("years_exp") @db.VarChar(20)
+  speciality     String?  @db.VarChar(100)
+  licenceNbr     String?  @unique @map("licence_nbr") @db.VarChar(100)
+  price          Decimal? @db.Decimal(8, 2)
+  diplomaUrl     String?  @map("diploma_url") @db.VarChar(500)
+  licenceUrl     String?  @map("licence_url") @db.VarChar(500)
+  pictureUrl     String?  @map("picture_url") @db.VarChar(500)
+  rating         Decimal  @default(0) @db.Decimal(3, 2)
+  reviewsCount   Int      @default(0) @map("reviews_count")
+  isVerified     Boolean  @default(false) @map("is_verified")
+  isActive       Boolean  @default(true) @map("is_active")
+  emailVerified  Boolean  @default(false) @map("email_verified")
+  phoneVerified  Boolean  @default(false) @map("phone_verified")
+  theme          String   @default("system") @db.VarChar(10)
+  language       String   @default("en") @db.VarChar(5)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("doctors")
+}
