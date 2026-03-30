@@ -9,7 +9,23 @@
 * 🟢 You can import this file directly.
 */
 
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const DayOfWeek = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY'
+} as const
+
+export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]

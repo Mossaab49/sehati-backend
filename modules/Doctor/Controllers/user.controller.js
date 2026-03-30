@@ -1,0 +1,73 @@
+// ------------------------------------------------
+//                   Import Services
+// ------------------------------------------------
+import userService from '../Services/user.service.js';
+
+// ------------------------------------------------
+//                   User controllers
+// ------------------------------------------------
+
+// GET api/doctors/users
+const getUsers = async (req, res, next) => {
+    try {
+        const users = await userService.getUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// GET api/doctors/users/:id
+const getUserById = async (req, res, next) => {
+    try {
+        const user = await userService.getUserById(req.params.id);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// POST api/doctors/users
+const createUser = async (req, res, next) => {
+    try {
+        const user = await userService.createUser(req.body);    
+        res.status(201).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// PUT api/doctors/users/:id
+const updateUser = async (req, res, next) => {
+    try{
+        const user = await userService.updateUser(req.params.id, req.body);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+
+    }
+};
+
+// DELETE api/doctors/users/:id
+const deleteUser = async (req, res, next) => {
+    try {
+        const user = await userService.deleteUser(req.params.id);
+        res.status(200).json({ message: 'user deleted successfully' });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+// ---------------------------------------------------------
+//                        export controllers
+// ---------------------------------------------------------
+
+export default {
+    getUsers,
+    getUserById,
+    createUser,
+    updateUser,
+    deleteUser
+};

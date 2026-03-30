@@ -12,7 +12,8 @@ import morgan from 'morgan';
 // -------------------------------------------------------
 //                       import routes
 // -------------------------------------------------------
-import doctorRoutes from './Routes/Doctor.routes.js';
+import doctorRoutes from './modules/Doctor/Routes/Doctor.routes.js';
+
 
 
 // -------------------------------------------------------
@@ -68,14 +69,17 @@ app.use('/api/doctors', doctorRoutes);
 
 
 
+
 // --------------------------------------------------------
 //                     Error handling
 // --------------------------------------------------------
 
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error(`[${req.method}] ${req.url} →`, err.message);
+    if (err.code === 'P2025') return res.status(404).json({ message: 'Not found' });
+    if (err.code === 'P2002') return res.status(409).json({ message: 'Value already exists' });
     res.status(err.status || 500).json({
-        message: err.message || 'Erreur serveur interne'
+        message: err.message || 'Internal server error'
     });
 });
 

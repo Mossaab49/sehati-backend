@@ -51,7 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Doctor: 'Doctor'
+  DoctorUser: 'DoctorUser',
+  Doctor: 'Doctor',
+  Specialisation: 'Specialisation',
+  Education: 'Education',
+  Schedule: 'Schedule'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,13 +74,25 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const DoctorScalarFieldEnum = {
+export const DoctorUserScalarFieldEnum = {
   id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
   email: 'email',
   passwordHash: 'passwordHash',
   phone: 'phone',
+  status: 'status',
+  emailVerified: 'emailVerified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorUserScalarFieldEnum = (typeof DoctorUserScalarFieldEnum)[keyof typeof DoctorUserScalarFieldEnum]
+
+
+export const DoctorScalarFieldEnum = {
+  id: 'id',
+  doctorUserId: 'doctorUserId',
+  firstName: 'firstName',
+  lastName: 'lastName',
   gender: 'gender',
   birthday: 'birthday',
   city: 'city',
@@ -95,8 +111,6 @@ export const DoctorScalarFieldEnum = {
   reviewsCount: 'reviewsCount',
   isVerified: 'isVerified',
   isActive: 'isActive',
-  emailVerified: 'emailVerified',
-  phoneVerified: 'phoneVerified',
   theme: 'theme',
   language: 'language',
   createdAt: 'createdAt',
@@ -104,6 +118,44 @@ export const DoctorScalarFieldEnum = {
 } as const
 
 export type DoctorScalarFieldEnum = (typeof DoctorScalarFieldEnum)[keyof typeof DoctorScalarFieldEnum]
+
+
+export const SpecialisationScalarFieldEnum = {
+  id: 'id',
+  doctorId: 'doctorId',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SpecialisationScalarFieldEnum = (typeof SpecialisationScalarFieldEnum)[keyof typeof SpecialisationScalarFieldEnum]
+
+
+export const EducationScalarFieldEnum = {
+  id: 'id',
+  doctorId: 'doctorId',
+  institution: 'institution',
+  degree: 'degree',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
+
+
+export const ScheduleScalarFieldEnum = {
+  id: 'id',
+  doctorId: 'doctorId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isAvailable: 'isAvailable',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
 
 
 export const SortOrder = {

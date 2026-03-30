@@ -1,7 +1,7 @@
 // ----------------------------------------------------------
 //                      import prismaclient
 // ---------------------------------------------------------
-import { PrismaClient } from '../generated/prisma/client.ts';
+import { PrismaClient } from '../../../generated/prisma/client.ts';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 
@@ -31,11 +31,9 @@ const getDoctorById = async (id) => {
 const createDoctor = async (data) => {
     return await prisma.doctor.create({
         data: {
+            doctorUserId: data.doctorUserId,
             firstName: data.firstName,
             lastName: data.lastName,
-            email: data.email,
-            passwordHash: data.passwordHash,
-            phone: data.phone,
             gender: data.gender,
             birthday: data.birthday ? new Date(data.birthday) : null,
             city: data.city,
@@ -58,7 +56,24 @@ const createDoctor = async (data) => {
 const updateDoctor = async (id, data) => {
     return await prisma.doctor.update({
         where: { id: id },
-        data: data
+        data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        gender: data.gender,
+        birthday: data.birthday ? new Date(data.birthday) : null,
+        city: data.city,
+        fullAddress: data.fullAddress,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        bio: data.bio,
+        yearsExp: data.yearsExp,
+        speciality: data.speciality,
+        licenceNbr: data.licenceNbr,
+        price: data.price,
+        diplomaUrl: data.diplomaUrl,
+        licenceUrl: data.licenceUrl,
+        pictureUrl: data.pictureUrl,
+        }
     });
 };
 

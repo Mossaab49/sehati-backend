@@ -9,13 +9,54 @@ datasource db{
 }
 
 
+// ─── Enums ─────────────────────────────────────────────────────────────────
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+
+
+// ─── DoctorUser ────────────────────────────────────────────────────────────
+
+model DoctorUser {
+  id            String     @id @default(uuid()) @db.Uuid
+  email         String     @unique @db.VarChar(255)
+  passwordHash  String     @map("password_hash") @db.VarChar(255)
+  phone         String?    @db.VarChar(20)
+  status        UserStatus @default(ACTIVE)
+  emailVerified Boolean    @default(false) @map("email_verified")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  doctor        Doctor?
+
+  @@index([email])
+  @@map("doctor_users")
+}
+
+
+
+// ─── Doctor ────────────────────────────────────────────────────────────────
+
+
 model Doctor {
   id             String   @id @default(uuid()) @db.Uuid
+  doctorUserId  String    @unique @map("doctor_user_id") @db.Uuid
   firstName      String   @map("first_name") @db.VarChar(100)
   lastName       String   @map("last_name") @db.VarChar(100)
-  email          String   @unique @db.VarChar(255)
-  passwordHash   String   @map("password_hash") @db.VarChar(255)
-  phone          String?  @db.VarChar(20)
   gender         String?  @db.VarChar(10)
   birthday       DateTime? @db.Date
   city           String?  @db.VarChar(100)
@@ -34,12 +75,70 @@ model Doctor {
   reviewsCount   Int      @default(0) @map("reviews_count")
   isVerified     Boolean  @default(false) @map("is_verified")
   isActive       Boolean  @default(true) @map("is_active")
-  emailVerified  Boolean  @default(false) @map("email_verified")
-  phoneVerified  Boolean  @default(false) @map("phone_verified")
   theme          String   @default("system") @db.VarChar(10)
   language       String   @default("en") @db.VarChar(5)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
+
+  doctorUser       DoctorUser        @relation(fields: [doctorUserId], references: [id], onDelete: Cascade)
+  specialisations Specialisation[]
+  educations      Education[]
+  schedules       Schedule[]
+
+  @@index([lastName, firstName])
+  @@index([city])
   @@map("doctors")
+}
+
+
+// ─── Specialisation ────────────────────────────────────────────────────────
+
+model Specialisation {
+  id          String   @id @default(uuid()) @db.Uuid
+  doctorId    String   @map("doctor_id") @db.Uuid
+  name        String   @db.VarChar(100)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  doctor      Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId])
+  @@map("specialisations")
+}
+
+// ─── Education ─────────────────────────────────────────────────────────────
+
+model Education {
+  id           String    @id @default(uuid()) @db.Uuid
+  doctorId     String    @map("doctor_id") @db.Uuid
+  institution  String    @db.VarChar(150)
+  degree       String    @db.VarChar(150)
+  date    String? @map("date") @db.VarChar(150)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  doctor       Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId])
+  @@map("educations")
+}
+
+// ─── Schedule ──────────────────────────────────────────────────────────────
+
+model Schedule {
+  id                  String    @id @default(uuid()) @db.Uuid
+  doctorId            String    @map("doctor_id") @db.Uuid
+  dayOfWeek           DayOfWeek @map("day_of_week")
+  startTime           String    @map("start_time") @db.VarChar(5)
+  endTime             String    @map("end_time") @db.VarChar(5)
+  isAvailable         Boolean   @default(true) @map("is_available")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  doctor              Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, dayOfWeek])
+  @@unique([doctorId, dayOfWeek, startTime, endTime])
+  @@map("schedules")
 }
