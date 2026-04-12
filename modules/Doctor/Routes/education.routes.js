@@ -3,16 +3,19 @@
 // ------------------------------------------------
 import express from 'express';
 import educationController from '../Controllers/education.controller.js';
-const router = express.Router();
+import validate from '../Middlewares/validate.js';
+import { createEducationSchema, updateEducationSchema } from'../Schemas/education.schema.js';
 
+
+const router = express.Router();
 
 // ------------------------------------------------
 //                   education routes
 // ------------------------------------------------
 router.get('/', educationController.getEducations);
 router.get('/:id', educationController.getEducationById);
-router.post('/', educationController.createEducation);
-router.put('/:id', educationController.updateEducation);
+router.post('/', validate(createEducationSchema), educationController.createEducation);
+router.put('/:id', validate(updateEducationSchema), educationController.updateEducation);
 router.delete('/:id', educationController.deleteEducation);
 
 // ------------------------------------------------

@@ -3,8 +3,11 @@
 // ------------------------------------------------
 import express from 'express';
 import doctorController from '../Controllers/doctor.controller.js';
-const router = express.Router();
+import validate from '../Middlewares/validate.js';
+import { createProfileSchema, updateProfileSchema } from '../Schemas/profile.schema.js';
 
+
+const router = express.Router();
 // ------------------------------------------------
 //                  import routes
 // ------------------------------------------------
@@ -18,8 +21,8 @@ import specialisationRoutes from './specialisation.routes.js';
 // ------------------------------------------------
 router.get('/profiles', doctorController.getdoctors);
 router.get('/profiles/:id', doctorController.getDoctorById);
-router.post('/profiles', doctorController.createDoctor);
-router.put('/profiles/:id', doctorController.updateDoctor);
+router.post('/profiles', validate(createProfileSchema), doctorController.createDoctor);
+router.put('/profiles/:id', validate(updateProfileSchema), doctorController.updateDoctor);
 router.delete('/profiles/:id', doctorController.deleteDoctor);
 
 // ------------------------------------------------
