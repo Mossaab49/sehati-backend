@@ -42,3 +42,13 @@ export type Education = Prisma.EducationModel
  * 
  */
 export type Schedule = Prisma.ScheduleModel
+/**
+ * Model PatientUser
+ * 
+ */
+export type PatientUser = Prisma.PatientUserModel
+/**
+ * Model Patient
+ * 
+ */
+export type Patient = Prisma.PatientModel

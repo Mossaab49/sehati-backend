@@ -13,6 +13,7 @@ import morgan from 'morgan';
 //                       import routes
 // -------------------------------------------------------
 import doctorRoutes from './modules/Doctor/Routes/Doctor.routes.js';
+import patientRoutes from './modules/Patient/Routes/patient.routes.js';
 
 
 
@@ -66,6 +67,7 @@ app.get('/mongodb', async (req, res) => {
 // --------------------------------------------------------
 
 app.use('/api/doctors', doctorRoutes);
+app.use('/api/patients', patientRoutes);
 
 
 

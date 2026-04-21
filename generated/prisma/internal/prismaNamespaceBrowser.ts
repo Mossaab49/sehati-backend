@@ -55,7 +55,9 @@ export const ModelName = {
   Doctor: 'Doctor',
   Specialisation: 'Specialisation',
   Education: 'Education',
-  Schedule: 'Schedule'
+  Schedule: 'Schedule',
+  PatientUser: 'PatientUser',
+  Patient: 'Patient'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -156,6 +158,38 @@ export const ScheduleScalarFieldEnum = {
 } as const
 
 export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
+
+
+export const PatientUserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  phone: 'phone',
+  status: 'status',
+  emailVerified: 'emailVerified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PatientUserScalarFieldEnum = (typeof PatientUserScalarFieldEnum)[keyof typeof PatientUserScalarFieldEnum]
+
+
+export const PatientScalarFieldEnum = {
+  id: 'id',
+  patientUserId: 'patientUserId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  gender: 'gender',
+  birthday: 'birthday',
+  city: 'city',
+  pictureUrl: 'pictureUrl',
+  theme: 'theme',
+  language: 'language',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PatientScalarFieldEnum = (typeof PatientScalarFieldEnum)[keyof typeof PatientScalarFieldEnum]
 
 
 export const SortOrder = {

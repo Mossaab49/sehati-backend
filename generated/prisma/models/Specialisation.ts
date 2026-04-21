@@ -158,7 +158,7 @@ export type SpecialisationGroupByOutputType = {
   _max: SpecialisationMaxAggregateOutputType | null
 }
 
-type GetSpecialisationGroupByPayload<T extends SpecialisationGroupByArgs> = Prisma.PrismaPromise<
+export type GetSpecialisationGroupByPayload<T extends SpecialisationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<SpecialisationGroupByOutputType, T['by']> &
       {

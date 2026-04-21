@@ -142,3 +142,45 @@ model Schedule {
   @@unique([doctorId, dayOfWeek, startTime, endTime])
   @@map("schedules")
 }
+
+
+
+// ─── PatientUser ───────────────────────────────────────────────────────────
+
+model PatientUser {
+  id            String     @id @default(uuid()) @db.Uuid
+  email         String     @unique @db.VarChar(255)
+  passwordHash  String     @map("password_hash") @db.VarChar(255)
+  phone         String?    @db.VarChar(20)
+  status        UserStatus @default(ACTIVE)
+  emailVerified Boolean    @default(false) @map("email_verified")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  patient       Patient?
+
+  @@index([email])
+  @@map("patient_users")
+}
+
+// ─── Patient ───────────────────────────────────────────────────────────────
+
+model Patient {
+  id            String    @id @default(uuid()) @db.Uuid
+  patientUserId String    @unique @map("patient_user_id") @db.Uuid
+  firstName     String    @map("first_name") @db.VarChar(100)
+  lastName      String    @map("last_name") @db.VarChar(100)
+  gender        String?   @db.VarChar(10)
+  birthday      DateTime? @db.Date
+  city          String?   @db.VarChar(100)
+  pictureUrl    String?   @map("picture_url") @db.VarChar(500)
+  theme         String    @default("system") @db.VarChar(10)
+  language      String    @default("en") @db.VarChar(5)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  patientUser   PatientUser @relation(fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  @@index([lastName, firstName])
+  @@map("patients")
+}
